@@ -45,3 +45,14 @@ describe("failing block", () => {
         });
     });
 });
+
+describe("snapshot tests", () => {
+    test("successful snapshot test", () => {
+        expect("Kekse").toMatchSnapshot();
+    });
+
+    test("failing snapshot test", () => {
+        const failingSnapshot = "" + Math.floor(Math.random() * 1000000);
+        expect(failingSnapshot).toMatchSnapshot();
+    });
+});

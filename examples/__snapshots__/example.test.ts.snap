@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot tests failing snapshot test 1`] = `"80245"`;
+
+exports[`snapshot tests successful snapshot test 1`] = `"Kekse"`;
