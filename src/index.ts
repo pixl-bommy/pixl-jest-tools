@@ -9,6 +9,9 @@ import {
 } from "@jest/reporters";
 import { AssertionResult } from "@jest/types/build/TestResult";
 
+import printTestFooter from "./printTestFooter";
+import printTestSummary from "./printTestSummary";
+
 const MAX_LINE_LENGTH = 80;
 
 interface JestMinimalReporterOptions {
@@ -66,21 +69,7 @@ export default class JestMinimalReporter implements Partial<Reporter> {
             else console.error(obsoleteError);
         }
 
-        const padLen = ("" + results.numTotalTests).length;
-        console.log(`Ran ${results.numTotalTests} tests in ${testDuration()}`);
-        console.log(`  ${pad(padLen, results.numPassedTests || 0)} passing`);
-        console.log(`  ${pad(padLen, results.numFailedTests || 0)} failing`);
-        console.log(`  ${pad(padLen, results.numPendingTests || 0)} pending`);
-        console.log(`  ${pad(padLen, results.numTodoTests || 0)} todo`);
-        console.log();
-
-        function testDuration() {
-            const end = new Date().valueOf();
-            const start = new Date(results.startTime).valueOf();
-
-            const seconds = (end - start) / 1000;
-            return `${seconds} s`;
-        }
+        printTestFooter(results);
     }
 
     onTestResult(
@@ -96,7 +85,7 @@ export default class JestMinimalReporter implements Partial<Reporter> {
         test: Test,
         testCaseResult: AssertionResult
     ): void | Promise<void> {
-        printTestResult(testCaseResult, this._options.color);
+        printTestSummary(testCaseResult, this._options.color);
 
         // add linebreak after {option.lineLenght} chars
         this._charsUntilLineBreak = this._charsUntilLineBreak - 1;
@@ -107,70 +96,8 @@ export default class JestMinimalReporter implements Partial<Reporter> {
     }
 }
 
-function printTestResult(result: AssertionResult, useColor?: boolean): void {
-    switch (result?.status) {
-        case "disabled": {
-            const format = useColor ? silent : noformat;
-            process.stdout.write(format("_"));
-            break;
-        }
-
-        case "failed": {
-            const format = useColor ? redBg : noformat;
-            process.stdout.write(format("F"));
-            break;
-        }
-
-        case "passed": {
-            const format = useColor ? silent : noformat;
-            process.stdout.write(format("."));
-            break;
-        }
-
-        case "pending": {
-            const format = useColor ? yellow : noformat;
-            process.stdout.write(format("*"));
-            break;
-        }
-
-        case "skipped": {
-            const format = useColor ? silent : noformat;
-            process.stdout.write(format("»"));
-            break;
-        }
-
-        case "todo": {
-            const format = useColor ? yellow : noformat;
-            process.stdout.write(format("t"));
-            break;
-        }
-
-        default:
-            process.stdout.write("?");
-            break;
-    }
-}
-
 function pluralize(word: string, count: number) {
     return `${count} ${word}${count === 1 ? "" : "s"}`;
 }
 
-function noformat(text: string) {
-    return text;
-}
 
-function silent(text: string) {
-    return `\x1b[2m${text}\x1b[0m`;
-}
-
-function yellow(text: string) {
-    return `\x1b[33m${text}\x1b[0m`;
-}
-
-function redBg(text: string) {
-    return `\x1b[41m${text}\x1b[0m`;
-}
-
-function pad(len: number, value: number): string {
-    return ("" + (value || 0)).padStart(len, " ");
-}
