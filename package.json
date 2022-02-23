@@ -4,7 +4,8 @@
     "description": "A jest reporter to show test results in a more simple and retro style.",
     "main": "lib/index.js",
     "scripts": {
-        "start": "tsc --watch",
+        "start": "npm run build -- --watch",
+        "build": "tsc",
         "test": "jest"
     },
     "keywords": [],
