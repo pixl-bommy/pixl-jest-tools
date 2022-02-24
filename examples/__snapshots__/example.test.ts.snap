@@ -2,4 +2,6 @@
 
 exports[`snapshot tests failing snapshot test 1`] = `"80245"`;
 
+exports[`snapshot tests obsolete snapshot test 1`] = `"obsolete"`;
+
 exports[`snapshot tests successful snapshot test 1`] = `"Kekse"`;
