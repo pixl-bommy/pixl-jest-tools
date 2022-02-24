@@ -58,20 +58,22 @@ export default class JestMinimalReporter implements Partial<Reporter> {
         console.log();
 
         if (!this._options.hideErrorReport) {
-            results.testResults.map(({ failureMessage }) => {
-                if (failureMessage) {
-                    console.error(failureMessage);
-                }
-            });
+            results.testResults
+                .filter(({ failureMessage }) => failureMessage)
+                .forEach(({ failureMessage }) => console.error(failureMessage));
         }
 
         if (!results.snapshot.didUpdate && results.snapshot.unchecked) {
-            const obsoleteError =
-                pluralize("obsolete snapshot", results.snapshot.unchecked) +
-                " found.";
-            if (this._options.color)
-                console.error(`\x1b[31m${obsoleteError}\x1b[0m`);
-            else console.error(obsoleteError);
+            const count = results.snapshot.unchecked;
+            const message = `${count} obsolete snapshot${
+                count > 1 ? "s" : ""
+            } found.`;
+
+            const colorizedError = this._options.color
+                ? `\x1b[31m${message}\x1b[0m`
+                : message;
+
+            console.error(colorizedError);
             console.log();
         }
 
@@ -100,8 +102,4 @@ export default class JestMinimalReporter implements Partial<Reporter> {
             process.stdout.write("\n");
         }
     }
-}
-
-function pluralize(word: string, count: number) {
-    return `${count} ${word}${count === 1 ? "" : "s"}`;
 }
