@@ -26,7 +26,13 @@ Ran 410 tests in 37.234 s
 
 Possible output chars
 
-- `.` test case a succeeded
-- `F` test case failed
-- `*` test is pending (e.g. fetch or promise that doesn't resolved within timeout)
-- `t` test.todo
+-   `.` test case a succeeded
+-   `F` test case failed
+-   `*` test is pending (e.g. fetch or promise that doesn't resolved within timeout)
+-   `t` test.todo
+
+### Reporter options
+
+-   `color` [boolean] highlight errors in red
+-   `lineLength` [number] adds linebreak after given number of test cases
+-   `hideErrorReport` [boolean] hide list of occured errors after tests are done

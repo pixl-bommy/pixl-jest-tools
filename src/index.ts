@@ -15,8 +15,9 @@ import printTestSummary from "./printTestSummary";
 const MAX_LINE_LENGTH = 80;
 
 interface JestMinimalReporterOptions {
-    color?: boolean;
     lineLength: number;
+    color?: boolean;
+    hideErrorReport?: boolean;
 }
 
 export default class JestMinimalReporter implements Partial<Reporter> {
@@ -54,11 +55,15 @@ export default class JestMinimalReporter implements Partial<Reporter> {
         results: AggregatedResult
     ): void | Promise<void> {
         console.log();
-        results.testResults.map(({ failureMessage }) => {
-            if (failureMessage) {
-                console.error(failureMessage);
-            }
-        });
+        console.log();
+
+        if (!this._options.hideErrorReport) {
+            results.testResults.map(({ failureMessage }) => {
+                if (failureMessage) {
+                    console.error(failureMessage);
+                }
+            });
+        }
 
         if (!results.snapshot.didUpdate && results.snapshot.unchecked) {
             const obsoleteError =
@@ -67,6 +72,7 @@ export default class JestMinimalReporter implements Partial<Reporter> {
             if (this._options.color)
                 console.error(`\x1b[31m${obsoleteError}\x1b[0m`);
             else console.error(obsoleteError);
+            console.log();
         }
 
         printTestFooter(results);
@@ -99,5 +105,3 @@ export default class JestMinimalReporter implements Partial<Reporter> {
 function pluralize(word: string, count: number) {
     return `${count} ${word}${count === 1 ? "" : "s"}`;
 }
-
-
