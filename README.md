@@ -4,6 +4,13 @@ This project offers a custom reporter for the test framework `jest`.
 
 It target is to show test results in an simple way, while highlighting unexpected states.
 
+## Scripts
+
+-   `build` builds javascript output to /lib folder
+-   `start` same as `build` but with active watch mode
+-   `test` runs code tests only
+-   `test:exapmles` runs code tests and examples together
+
 ### Example
 
 ```
