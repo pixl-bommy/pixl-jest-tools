@@ -6,7 +6,8 @@
     "scripts": {
         "start": "npm run build -- --watch",
         "build": "tsc",
-        "test": "jest"
+        "test": "jest",
+        "test:examples": "jest -c=jest.with-examples.js"
     },
     "keywords": [],
     "author": "Thomas Borck",

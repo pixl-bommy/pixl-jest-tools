@@ -1,6 +1,6 @@
 module.exports = {
     preset: "ts-jest",
-    roots: ["<rootDir>/examples", "<rootDir>/src", "<rootDir>/tests"],
+    roots: ["<rootDir>/src", "<rootDir>/tests"],
     testRegex: ".*.test.ts$",
     reporters: [
         [
