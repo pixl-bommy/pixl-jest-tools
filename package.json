@@ -7,7 +7,6 @@
     "scripts": {
         "start": "npm run build -- --watch",
         "build": "tsc",
-        "prepublish": "rm -rf lib/ && npm run build -- --sourceMap false --declarationMap false && npm run test",
         "test": "jest",
         "test:examples": "jest -c=jest.with-examples.js"
     },
