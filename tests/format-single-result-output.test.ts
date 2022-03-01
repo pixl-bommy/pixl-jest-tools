@@ -10,10 +10,10 @@ describe("format single test result output", () => {
         ["todo", "t"],
         ["__unknown_status__", "?"],
     ])("with status %p print out %p", (status, char) => {
-        const writer = jest.fn();
-        printTestSummary({ status } as any, undefined, writer);
+        const writer = { write: jest.fn() };
+        printTestSummary({ status } as any, undefined, writer as any);
 
-        expect(writer).toHaveBeenCalledWith(char);
+        expect(writer.write).toHaveBeenCalledWith(char);
     });
 
     test.each([
@@ -24,12 +24,15 @@ describe("format single test result output", () => {
         ["skipped", "»", "\x1b[2m"],
         ["todo", "t", "\x1b[33m"],
         ["__unknown_status__", "?", "\x1b[45m"],
-    ])("with color and status %p print out %p with given color", (status, char, escColor) => {
-        const writer = jest.fn();
-        const escReset = "\x1b[0m";
+    ])(
+        "with color and status %p print out %p with given color",
+        (status, char, escColor) => {
+            const writer = { write: jest.fn() };
+            const escReset = "\x1b[0m";
 
-        printTestSummary({ status } as any, true, writer);
+            printTestSummary({ status } as any, true, writer as any);
 
-        expect(writer).toHaveBeenCalledWith(escColor + char + escReset);
-    });
+            expect(writer.write).toHaveBeenCalledWith(escColor + char + escReset);
+        }
+    );
 });

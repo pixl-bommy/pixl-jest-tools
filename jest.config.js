@@ -5,11 +5,11 @@ module.exports = {
     reporters: [
         [
             "<rootDir>/lib/index.js",
-            { color: true, lineLength: 25, hideErrorReport: true },
+            { color: true, lineLength: 25, hideErrorReport: false },
         ],
     ],
 
-    collectCoverage: true,
+    collectCoverage: false,
     collectCoverageFrom: ["**/*.ts"],
     coveragePathIgnorePatterns: [
         "/coverage",
@@ -17,5 +17,5 @@ module.exports = {
         "/examples/",
         "/lib/",
     ],
-    coverageReporters: ["lcov", "text-summary"],
+    coverageReporters: ["lcov"],
 };
