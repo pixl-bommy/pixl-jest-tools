@@ -1,45 +1,25 @@
 {
-    "name": "jest-minimal-reporter",
+    "name": "pixl-jest-tools",
     "version": "1.0.0",
-    "description": "A jest reporter to show test results in a more simple and retro style.",
     "license": "MIT",
-    "main": "lib/index.js",
     "scripts": {
         "start": "npm run build -- --watch",
-        "build": "tsc",
-        "test": "jest",
-        "test:examples": "jest -c=jest.with-examples.js"
+        "build": "tsc --build",
+        "test": "jest"
     },
-    "keywords": [
-        "jest",
-        "reporter",
-        "test",
-        "report",
-        "plugin"
-    ],
     "author": {
         "name": "Thomas Borck",
         "email": "pixl-bommy@mailbox.org"
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/pixl-bommy/jest-minimal-reporter.git"
+        "url": "https://github.com/pixl-bommy/pixl-jest-tools.git"
     },
     "bugs": {
-        "url": "https://github.com/pixl-bommy/jest-minimal-reporter/issues"
+        "url": "https://github.com/pixl-bommy/pixl-jest-tools/issues"
     },
-    "homepage": "https://github.com/pixl-bommy/jest-minimal-reporter#readme",
-    "dependencies": {
-        "@jest/reporters": "^27.5.1",
-        "@types/jest": "^27.4.1"
-    },
-    "devDependencies": {
-        "jest": "^27.5.1",
-        "ts-jest": "^27.1.3",
-        "typescript": "^4.5.5"
-    },
-    "files": [
-        "lib/",
-        "README.md"
+    "homepage": "https://github.com/pixl-bommy/pixl-jest-tools#readme",
+    "workspaces": [
+        "./packages/*"
     ]
 }

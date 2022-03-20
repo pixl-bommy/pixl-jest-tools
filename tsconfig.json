@@ -3,10 +3,6 @@
         "target": "ESNext",
         "module": "commonjs",
         "moduleResolution": "node",
-
-        "rootDir": "./src",
-        "outDir": "./lib",
-
         "declaration": true,
         "declarationMap": true,
         "sourceMap": true,
@@ -16,6 +12,10 @@
         "forceConsistentCasingInFileNames": true,
         "removeComments": true
     },
-    "include": ["src"],
-    "exclude": ["node_modules"]
+    "files": [],
+    "references": [
+        {
+            "path": "./packages/jest-minimal-reporter/tsconfig.json"
+        }
+    ]
 }

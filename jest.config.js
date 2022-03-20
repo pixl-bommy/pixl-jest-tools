@@ -1,21 +1,10 @@
 module.exports = {
-    preset: "ts-jest",
-    roots: ["<rootDir>/src", "<rootDir>/tests"],
-    testRegex: ".*.test.ts$",
+    projects: ["<rootDir>/packages/**/jest.config.js"],
     reporters: [
         [
-            "<rootDir>/lib/index.js",
+            "jest-minimal-reporter",
             { color: true, lineLength: 25, hideErrorReport: false },
         ],
-    ],
-
-    collectCoverage: false,
-    collectCoverageFrom: ["**/*.ts"],
-    coveragePathIgnorePatterns: [
-        "/coverage",
-        "/node_modules/",
-        "/examples/",
-        "/lib/",
     ],
     coverageReporters: ["lcov"],
 };
