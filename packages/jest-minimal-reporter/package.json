@@ -30,13 +30,13 @@
     },
     "homepage": "https://github.com/pixl-bommy/jest-minimal-reporter#readme",
     "dependencies": {
-        "@jest/reporters": "^27.5.1",
-        "@types/jest": "^27.5.2"
+        "@jest/reporters": "^30.2.0",
+        "@types/jest": "^30.0.0"
     },
     "devDependencies": {
-        "jest": "^27.5.1",
-        "ts-jest": "^27.1.5",
-        "typescript": "^4.9.5"
+        "jest": "^30.2.0",
+        "ts-jest": "^29.4.6",
+        "typescript": "^5.9.3"
     },
     "files": [
         "lib/",

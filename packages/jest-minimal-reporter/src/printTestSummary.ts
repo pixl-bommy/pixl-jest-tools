@@ -1,10 +1,10 @@
-import { AssertionResult } from "@jest/types/build/TestResult";
+import { TestCaseResult } from "@jest/reporters";
 
 export default function printTestSummary(
-    result: AssertionResult,
+    result: TestCaseResult,
     useColor?: boolean,
     // istanbul-ignore-next: injection is for tests only
-    writer = process.stdout
+    writer = process.stdout,
 ): void {
     switch (result?.status) {
         case "disabled": {

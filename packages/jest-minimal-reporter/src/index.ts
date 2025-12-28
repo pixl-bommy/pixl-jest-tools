@@ -1,13 +1,4 @@
-import {
-    AggregatedResult,
-    Config,
-    Context,
-    Reporter,
-    ReporterOnStartOptions,
-    Test,
-    TestResult,
-} from "@jest/reporters";
-import { AssertionResult } from "@jest/types/build/TestResult";
+import { Config, Reporter } from "@jest/reporters";
 
 import printTestFooter from "./printTestFooter";
 import printTestSummary from "./printTestSummary";
@@ -25,10 +16,7 @@ export default class JestMinimalReporter implements Partial<Reporter> {
     private _options: JestMinimalReporterOptions;
     private _charsUntilLineBreak: number;
 
-    constructor(
-        globalConfig: Config.GlobalConfig,
-        options: Partial<JestMinimalReporterOptions>
-    ) {
+    constructor(_: Config.GlobalConfig, options: Partial<JestMinimalReporterOptions>) {
         const lineLength = options.lineLength || MAX_LINE_LENGTH;
 
         this._options = {
@@ -39,21 +27,15 @@ export default class JestMinimalReporter implements Partial<Reporter> {
         this._charsUntilLineBreak = lineLength;
     }
 
-    onRunStart(
-        results: AggregatedResult,
-        options: ReporterOnStartOptions
-    ): void | Promise<void> {
+    public onRunStart: Reporter["onRunStart"] = (results) => {
         this._numTestSuitesLeft = results.numTotalTestSuites;
 
         console.log();
         console.log(`Found ${results.numTotalTestSuites} test suites`);
         console.log();
-    }
+    };
 
-    onRunComplete(
-        contexts: Set<Context>,
-        results: AggregatedResult
-    ): void | Promise<void> {
+    public onRunComplete: Reporter["onRunComplete"] = (_, results) => {
         console.log();
         console.log();
 
@@ -65,34 +47,23 @@ export default class JestMinimalReporter implements Partial<Reporter> {
 
         if (!results.snapshot.didUpdate && results.snapshot.unchecked) {
             const count = results.snapshot.unchecked;
-            const message = `${count} obsolete snapshot${
-                count > 1 ? "s" : ""
-            } found.`;
+            const message = `${count} obsolete snapshot${count > 1 ? "s" : ""} found.`;
 
-            const colorizedError = this._options.color
-                ? `\x1b[31m${message}\x1b[0m`
-                : message;
+            const colorizedError = this._options.color ? `\x1b[31m${message}\x1b[0m` : message;
 
             console.error(colorizedError);
             console.log();
         }
 
         printTestFooter(results);
-    }
+    };
 
-    onTestResult(
-        test: Test,
-        testResult: TestResult,
-        aggregatedResult: AggregatedResult
-    ): void | Promise<void> {
+    public onTestResult: Reporter["onTestResult"] = () => {
         const testSuitesLeft = this._numTestSuitesLeft - 1;
         this._numTestSuitesLeft = testSuitesLeft;
-    }
+    };
 
-    onTestCaseResult(
-        test: Test,
-        testCaseResult: AssertionResult
-    ): void | Promise<void> {
+    public onTestCaseResult: Reporter["onTestCaseResult"] = (_, testCaseResult) => {
         printTestSummary(testCaseResult, this._options.color);
 
         // add linebreak after {option.lineLenght} chars
@@ -101,5 +72,5 @@ export default class JestMinimalReporter implements Partial<Reporter> {
             this._charsUntilLineBreak = this._options.lineLength;
             process.stdout.write("\n");
         }
-    }
+    };
 }
